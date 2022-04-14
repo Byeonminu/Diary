@@ -8,8 +8,8 @@ var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
 var authRouter = require('./routes/auth');
 var listRouter = require('./routes/list');
-
-var app = express();
+const session = require('express-session');
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,7 +21,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+
+
+}));
+
+
 var passport = require('./controllers/passport')(app);
+
 
 app.use('/', indexRouter);
 app.use('/home', homeRouter);

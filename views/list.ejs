@@ -1,11 +1,32 @@
 <!DOCTYPE html>
 <head>
     <title>List</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 
 <body>
 
     list page
+    <div style="color: blue"><%= nickname %></div>
+    <% for(var i =0; i < lists.length; i++) { %>
+    <% var user = "/list/" +lists[i].user_identifier; %>
+    <% var doc = user + "/" + lists[i].doc_identifier; console.log(doc); %>
+    <div class="list">
+    <br>
+    <li><a href=<%= doc %> ><%= "Title:" + lists[i].title %></a></li>
+    <br>
+    <li><%= "내용:" + lists[i].description %></li>
+    <br>
+    <li><%= "when_written: " + lists[i].when_written %></li>
+    <br>
+    <li><%= "last_updated: " + lists[i].last_updated %></li>
+    <hr/>
+    </div>
+<% } %>
+    
+
+
+
 
 </body>
