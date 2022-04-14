@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<head>
+    <title>List</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+
+    create page <div style= "float:right"><%= nickname %></div>
+    <form action="/list/create_process" method="post">
+    <br>
+    제목
+    <input type = "text" name = "title" placeholder ="제목">
+    <br> 
+    내용
+    <input class ="desc" name ="description" placeholder="내용">
+    <br>
+    <input type="submit" value ="create">
+    </form>
+
+</body>

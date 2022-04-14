@@ -34,7 +34,7 @@ router.post('/signup', function(req, res, next){
 
  
   db.query(`insert into users (id, password, identifier, nickname) values(?, ?, ?, ? )`,
-    [id, password, identifier , nickname], function(err, result){
+    [id, password, identifier, nickname], function(err, result){
 
         
         if (err) { return next(err); }

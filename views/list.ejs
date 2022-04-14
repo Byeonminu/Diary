@@ -7,14 +7,16 @@
 
 <body>
 
-    list page
+   
+    list page <a href = "/list/create" style= "float:right">글쓰기</a>
     <div style="color: blue"><%= nickname %></div>
+   
     <% for(var i =0; i < lists.length; i++) { %>
-    <% var user = "/list/" +lists[i].user_identifier; %>
-    <% var doc = user + "/" + lists[i].doc_identifier; console.log(doc); %>
+    <% var user="/list/" +lists[i].user_identifier; %>
+    <% var doc = user + "/" + lists[i].doc_identifier; %>
     <div class="list">
     <br>
-    <li><a href=<%= doc %> ><%= "Title:" + lists[i].title %></a></li>
+    <li><a href= <%= doc %> ><%= "Title:" + lists[i].title %></a></li>
     <br>
     <li><%= "내용:" + lists[i].description %></li>
     <br>
