@@ -3,7 +3,9 @@ var router = express.Router();
 
 
 router.get('/', function(req, res, next) {
-  res.render('home');
+  return res.render('home', {
+    message: req.flash().error 
+  });
 });
 
 module.exports = router;

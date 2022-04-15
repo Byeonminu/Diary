@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 
 <head>
-    <title>contents</title>
+    <title><%= contents.title %></title>
     <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 
 <body>
 
-    contents page
+    <a href="/auth/logout" style="float:right"> logout </a>
     <div class="list">
         <br>
-        <li class="title"><%= "Title:" + contents.title %></li>
+        <h2 class="title"><%= contents.title %></h2>
+        <div class="userinfo">
+            <b><%= contents.nickname %></b> <br>
+            <%= "글 작성 시간: " + contents.when_written %><br>
+            <%= "마지막 수정: " + contents.last_updated %>
+        </div>
+
         <br>
-        <li>
-            <%= "내용:" + contents.description %>
-        </li>
+        
+            <%= contents.description %>
+      
         <br>
-        <li>
-            <%= "when_written: " + contents.when_written %>
-        </li>
+        
+           
+        
         <br>
-        <li>
-            <%= "last_updated: " + contents.last_updated %>
-        </li>
+      
     </div>
 
 <% var updatelink = "/list/update/" + contents.doc_identifier; %>

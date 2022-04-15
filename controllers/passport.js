@@ -21,7 +21,7 @@ module.exports = function(app) {
     passport.deserializeUser(function (identifier, done){
         console.log("deserializeUser", identifier);
         db.query(`select * from users where identifier = ?`, [identifier], function(err, user){
-            console.log('sdsd', user);
+            
             done(null, user);
         })
     })
@@ -34,22 +34,25 @@ module.exports = function(app) {
         },
         function (username, pwd, done) {
             const password = bcrypt.hashSync(pwd, 10);
-            console.log("pwd is ", pwd);
+            
            
             db.query(`select * from users where id = ? `,[username], function(err, user){
-            console.log(user);
+            console.log('usrs' , user);
             if (err){ return done(err); }
-            if (!user){ return done(null, false); }
+            if (!user.length){ 
+                console.log('no user')
+                return done(null, false, {message: 'There is no ID!'})}
             if (user){
                     bcrypt.compare(pwd, user[0].password, function(err, result){
-                    if(result){
+                    if(result){ // login success
                         
                         console.log("correct!");
                         
                         return done(null, user); 
                     }
-                    else{
-                        return done(null, false);
+                    else{ //login fail
+                        console.log('login fail')
+                        return done(null, false, {message : 'Password is not correct!'});
                     }
                     
                 })

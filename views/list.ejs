@@ -8,9 +8,11 @@
 <body>
 
    
-    list page <a href = "/list/create" style= "float:right">글쓰기</a>
-    <div style="color: blue"><%= nickname %></div>
-    <a href ="/auth/logout"> logout </a>
+    <a href="/auth/logout"  style= "float:right" > logout </a>
+    <h2 class = 'diary'>  <%= nickname %>'s Diary</h2>
+    <a href = "/list/create" style= "float:right" >새 글쓰기</a>
+    
+    
     <% for(var i =0; i < lists.length; i++) { %>
     <% var user="/list/" +lists[i].user_identifier + "/" + lists[i].doc_identifier; %>
  

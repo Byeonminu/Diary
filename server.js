@@ -9,6 +9,7 @@ var homeRouter = require('./routes/home');
 var authRouter = require('./routes/auth');
 var listRouter = require('./routes/list');
 const session = require('express-session');
+var flash = require('connect-flash');
 const app = express();
 
 // view engine setup
@@ -25,10 +26,8 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-
-
 }));
-
+app.use(flash());
 
 var passport = require('./controllers/passport')(app);
 

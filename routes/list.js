@@ -28,10 +28,12 @@ router.post('/create_process', function (req, res, next){
 
 router.get('/update/:doc_identifier', function (req, res, next) {
  
-  db.query(`select * from writing where doc_identifier = ?`, [req.params.doc_identifier], function (err, result) {
-    console.log('update is', result[0].title);
+  db.query(`select nickname, user_identifier,
+   title, description, doc_identifier from users left join writing 
+   on users.identifier = writing.user_identifier where doc_identifier = ?;`, [req.params.doc_identifier], function (err, result) {
+    console.log('update is', result);
+  
      res.render('update',{
-      nickname : req.user[0].nickname,
       writing: result[0]
     })
   })
@@ -60,12 +62,14 @@ router.get('/delete/:doc_identifier', function (req, res, next) {
 
 router.get('/:user_identifier/:doc_identifier', function (req, res, next) {
  
-  db.query(`select * from writing where user_identifier = ? and doc_identifier = ? `, [req.params.user_identifier, req.params.doc_identifier], function (err, result) {
+  db.query(`select  nickname, user_identifier, when_written, last_updated,
+   title, description, doc_identifier from users left join writing 
+   on users.identifier = writing.user_identifier where user_identifier = ? and doc_identifier = ?;`, [req.params.user_identifier, req.params.doc_identifier], function (err, result) {
 
     if (err) return next(err);
-
+    
     if (result !== undefined) {
-      console.log('result0 is', result);
+      
       res.render("content", { contents: result[0] });
     }
     else {
