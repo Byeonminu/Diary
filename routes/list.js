@@ -26,6 +26,37 @@ router.post('/create_process', function (req, res, next){
   });
 });
 
+router.get('/update/:doc_identifier', function (req, res, next) {
+ 
+  db.query(`select * from writing where doc_identifier = ?`, [req.params.doc_identifier], function (err, result) {
+    console.log('update is', result[0].title);
+     res.render('update',{
+      nickname : req.user[0].nickname,
+      writing: result[0]
+    })
+  })
+});
+
+router.post('/update_process', function (req, res, next) {
+  console.log('req body is ', req.body);
+  db.query(`update writing set title = ?, description = ?, last_updated = NOW() where user_identifier = ? and doc_identifier = ?`,
+    [req.body.title, req.body.description, req.user[0].identifier, req.body.doc_identifier], function (err, result) {
+      console.log(req.body.title, req.body.description, req.user[0].identifier, req.body.doc_identifier);
+      console.log('update result is', result);
+      if(err) throw(err);
+      else return res.redirect('/list/' + req.user[0].identifier + '/' + req.body.doc_identifier);
+    });
+});
+
+router.get('/delete/:doc_identifier', function (req, res, next) {
+
+  db.query(`delete from writing where doc_identifier = ?`, [req.params.doc_identifier], function (err, result) {
+    res.redirect('/list');
+  });
+})
+
+
+
 
 router.get('/:user_identifier/:doc_identifier', function (req, res, next) {
  

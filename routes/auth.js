@@ -6,8 +6,6 @@ const bcrypt = require('bcrypt');
 const shortid = require('shortid');
 
 
-
-
 router.post('/signin',
   passport.authenticate('local', {
      failureRedirect: '/home',
@@ -28,23 +26,31 @@ router.post('/signup', function(req, res, next){
   const nickname = req.body.user_name;
  
   if (req.body.new_pw1 !== req.body.new_pw2){
-    res.redirect('/');
-    return;
+    
+    return res.redirect('/');
+    
   }
 
  
   db.query(`insert into users (id, password, identifier, nickname) values(?, ?, ?, ? )`,
     [id, password, identifier, nickname], function(err, result){
 
-        
+        console.log('qkfh fhrmdls ', result);
         if (err) { return next(err); }
-        return res.redirect('/list/' + identifier);
+        else{
+          
+            return res.redirect('/');
+        
+        }
+        
       
-
-
   })
 
-
 })
+
+router.get('/logout', function (req, res) {
+  req.logout();
+  res.redirect('/');
+});
 
 module.exports = router;

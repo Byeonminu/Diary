@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<head>
+    <title>update</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+   
+    update page <div style="float:right"><%= nickname %></div>
+    <form action="/list/update_process" method="post">
+        <br>
+        제목
+        <input type="text" name="title" value= "<%= writing.title %>" >
+        <br>
+        내용
+        <input class="desc" type="text" name="description" value= "<%= writing.description %>" >
+        <br>
+        <input type = "hidden" name = "doc_identifier" value= "<%= writing.doc_identifier %>" >
+        <input type="submit" value="update">
+    </form>
+
+</body>

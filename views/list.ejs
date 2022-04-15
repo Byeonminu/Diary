@@ -10,19 +10,19 @@
    
     list page <a href = "/list/create" style= "float:right">글쓰기</a>
     <div style="color: blue"><%= nickname %></div>
-   
+    <a href ="/auth/logout"> logout </a>
     <% for(var i =0; i < lists.length; i++) { %>
-    <% var user="/list/" +lists[i].user_identifier; %>
-    <% var doc = user + "/" + lists[i].doc_identifier; %>
+    <% var user="/list/" +lists[i].user_identifier + "/" + lists[i].doc_identifier; %>
+ 
     <div class="list">
-    <br>
-    <li><a href= <%= doc %> ><%= "Title:" + lists[i].title %></a></li>
-    <br>
+    <br><br>
+    <ui><a href= <%= user %> ><%= i + ". Title:" + lists[i].title %></a></ui>
+    <!-- <br>
     <li><%= "내용:" + lists[i].description %></li>
     <br>
     <li><%= "when_written: " + lists[i].when_written %></li>
     <br>
-    <li><%= "last_updated: " + lists[i].last_updated %></li>
+    <li><%= "last_updated: " + lists[i].last_updated %></li> -->
     <hr/>
     </div>
 <% } %>
