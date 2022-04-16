@@ -62,22 +62,27 @@ router.get('/delete/:doc_identifier', function (req, res, next) {
 
 router.get('/:user_identifier/:doc_identifier', function (req, res, next) {
  
-  db.query(`select  nickname, user_identifier, when_written, last_updated,
-   title, description, doc_identifier from users left join writing 
-   on users.identifier = writing.user_identifier where user_identifier = ? and doc_identifier = ?;`, [req.params.user_identifier, req.params.doc_identifier], function (err, result) {
 
-    if (err) return next(err);
-    
-    if (result !== undefined) {
+  db.query(`select * from writing where user_identifier = ?`, [req.params.user_identifier], function (err, user) {
+    db.query(`select  nickname, user_identifier, when_written, last_updated,
+    title, description, doc_identifier from users left join writing 
+    on users.identifier = writing.user_identifier where user_identifier = ? and doc_identifier = ?;`, [req.params.user_identifier, req.params.doc_identifier], function (err, result) {
+
+      if (err) return next(err);
       
-      res.render("content", { contents: result[0] });
-    }
-    else {
+      if (result !== undefined) {
+        console.log('user' , user);
+        res.render("content", {
+           contents: result[0],
+           user : user });
+      }
+      else {
 
-      res.redirect('/');
-    }
+        res.redirect('/');
+      }
 
 
+    })
   })
 });
 

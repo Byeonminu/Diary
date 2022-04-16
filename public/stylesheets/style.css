@@ -7,6 +7,7 @@
   font-size: 30px;
   text-align: center;
   margin: 0;
+  margin-bottom: 20px;
 }
 
 .desc{
@@ -21,7 +22,26 @@
 }
 
 .userinfo{
-  text-align: right;
-  font-size: 16px;
+  text-align: left;
+  font-size: 14px;
   font-weight: bold;
+}
+
+.inside_content{
+  margin-left: 15%;
+  width: 70%;
+  
+}
+
+.update_delete{
+  text-align: right;
+  display: block;
+}
+
+.list_in_contentspage{
+  width: 7%;
+  margin-left: 90%;
+  text-align: center;
+  font-size: 15px;
+  
 }

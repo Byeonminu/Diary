@@ -12,27 +12,35 @@
     <div class="list">
         <br>
         <h2 class="title"><%= contents.title %></h2>
+        <div class="inside_content">
         <div class="userinfo">
             <b><%= contents.nickname %></b> <br>
             <%= "글 작성 시간: " + contents.when_written %><br>
             <%= "마지막 수정: " + contents.last_updated %>
+            <div class="update_delete">
+            <% var updatelink="/list/update/" + contents.doc_identifier; %>
+            <a href=<%=updatelink %>>update</a>
+            ||
+            <% var deletelink="/list/delete/" + contents.doc_identifier; %>
+            <a href=<%=deletelink %>>delete</a>
+            </div>
         </div>
+        
+        <hr>
+        <% var description = contents.description.replaceAll(/(\n)/g, "<br/>"); %>
+            <%= description %>
 
-        <br>
-        
-            <%= contents.description %>
-      
-        <br>
-        
-           
-        
-        <br>
-      
     </div>
+    <% for(var i=0; i < user.length; i++) { %>
+        <% var link="/list/" +user[i].user_identifier + "/" + user[i].doc_identifier; %>
+    
+            <div class="list_in_contentspage">
+                <br>
+                <ui><a href=<%=link %> ><%= i + '. ' + user[i].title %></a></ui>
+    
+                <hr />
+            </div>
+            <% } %>
 
-<% var updatelink = "/list/update/" + contents.doc_identifier; %>
-<a href = <%=updatelink %>>update</a>
-||
-<% var deletelink="/list/delete/" + contents.doc_identifier; %>
-<a href= <%=deletelink %>>delete</a>
+
 </body>
