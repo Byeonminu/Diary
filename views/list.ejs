@@ -12,13 +12,17 @@
     <h2 class = 'diary'>  <%= nickname %>'s Diary</h2>
     <a href = "/list/create" style= "float:right" >새 글쓰기</a>
     
-    
+    <div class="list">
+    <ol>
     <% for(var i =0; i < lists.length; i++) { %>
     <% var user="/list/" +lists[i].user_identifier + "/" + lists[i].doc_identifier; %>
  
-    <div class="list">
-    <br><br>
-    <ui><a href= <%= user %> ><%= i + 1 + '. ' + lists[i].title %></a></ui>
+    <br>
+    <p>
+    <li><a href= <%= user %> ><%= lists[i].title %></a>
+    <%= "작성날짜: " + lists[i].when_written %>
+    </li>
+    </p>
     <!-- <br>
     <li><%= "내용:" + lists[i].description %></li>
     <br>
@@ -26,8 +30,10 @@
     <br>
     <li><%= "last_updated: " + lists[i].last_updated %></li> -->
     <hr/>
-    </div>
+   
 <% } %>
+</ol>
+</div>
     
 
 

@@ -14,7 +14,7 @@
         <h2 class="title"><%= contents.title %></h2>
         <div class="inside_content">
         <div class="userinfo">
-            <b><%= contents.nickname %></b> <br>
+            <b><%= "nickname: " + contents.nickname %></b> <br>
             <%= "글 작성 시간: " + contents.when_written %><br>
             <%= "마지막 수정: " + contents.last_updated %>
             <div class="update_delete">
@@ -27,7 +27,7 @@
         </div>
         
         <hr>
-        <% var description = contents.description.replaceAll(/(\n)/g, "<br/>"); %>
+        <% var description = contents.description.replaceAll(/(\r\n)/g, "<br/>"); %>
             <%= description %>
 
     </div>
@@ -38,7 +38,7 @@
                 <br>
                 <ui><a href=<%=link %> ><%= i + '. ' + user[i].title %></a></ui>
     
-                <hr />
+                <hr/>
             </div>
             <% } %>
 

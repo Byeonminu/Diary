@@ -6,14 +6,14 @@
 </head>
 <body>
 
-    create page <a href="/auth/logout" style="float:right"> logout </a>
+    <a href="/auth/logout" style="float:right"> logout </a>
     <form action="/list/create_process" method="post">
-    <br>
     제목
+    <p>
     <input type = "text" name = "title" placeholder ="제목">
-    <br> 
+    </p>
     내용
-    <input class ="desc" type = "text"  name ="description" placeholder="내용">
+    <p><textarea class ="desc" name ="description" placeholder="내용"> </textarea></p>
     <br>
     <input type="submit" value ="create">
     </form>
