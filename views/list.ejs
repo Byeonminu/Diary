@@ -20,7 +20,8 @@
     <br>
     <p>
     <li><a href= <%= user %> ><%= lists[i].title %></a>
-    <%= "작성날짜: " + lists[i].when_written %>
+ 
+    <%= "작성날짜: " + lists[i].when_written.toLocaleString() %>
     </li>
     </p>
     <!-- <br>

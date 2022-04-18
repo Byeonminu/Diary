@@ -1,54 +1,54 @@
-<!DOCTYPE html>
-<head>
-<title>Diary</title>
-<meta charset="utf-8">
-</head>
-
-<body>
-
+  <!DOCTYPE html>
+  
+  <head>
+    <title>Diary</title>
+    <meta charset="utf-8">
+  </head>
+  
   <body>
-    
-    <%= message %>
-    <form action="/auth/signin" method= "post" >
-    <fieldset>
-      <legend> Sign in </legend>
+  
+    <body>
+  
+      <%= message %>
+        <form action="/auth/signin" method="post">
+          <fieldset>
+            <legend> Sign in </legend>
+  
+            <label for="user_id"> 아이디 </label>
+            <input type="text" id="user_id" name="user_id" size="10" autofocus>
+  
+            <label for="user_pw"> 비밀번호 </label>
+            <input type="password" id="user_pw" name="user_pw">
+            <input type="submit" value="login">
+        </form>
+        </fieldset>
+  
+        <form action="/auth/signup" method="post">
+          <fieldset>
+            <legend> Sign up </legend>
+            <ul>
       
-      <label for="user_id"> 아이디 </label>
-      <input type="text" id="user_id" name="user_id" size="10" autofocus>
-
-      <label for="user_pw"> 비밀번호 </label>
-      <input type="password" id="user_pw" name="user_pw">
-      <input type="submit" value="login">
-      </form>
-    </fieldset>
-
-    <form action ="/auth/signup" method="post">
-    <fieldset>
-      <legend> Sign up </legend>
-      <ul>
-        <!-- em : 진하게, 강조 -->
-        <!-- id : lable의 for랑 연결된 부분 / name은 다른 파일로 넘겨줄 파라미터 명 -->
-        <li> <label class="reg" for="new_id"> 아이디 <em> * </em> </label>
-          <input type="text" id="new_id" name="new_id" size="20" autocomplete="on" required>
-        </li>
-        <li> <label class="reg" for="new_pw1"> 비밀번호 <em> * </em> </label>
-          <input type="password" id="new_pw1" name="new_pw1" size="20" required>
-        </li>
-        <li> <label class="reg" for="new_pw2"> 비밀번호 확인 <em> * </em> </label>
-          <input type="password" id="new_pw2" name="new_pw2" size="20" required>
-        </li>
-        <li> <label class="reg" for="user_name"> nickname <em> * </em> </label>
-          <input type="text" id="user_name" name="user_name" size="20" required>
-        </li>
-        
-      </ul>
-    </fieldset>
-
-    <fieldset class="sendform">
-      <input type="submit" value="가입하기">
-      <input type="reset" value="다시쓰기">
-    </fieldset>
-    </form>
-  </body>
-
-  </html>
+              <li> <label class="reg" for="new_id"> 아이디 <em> * </em> </label>
+                <input type="text" id="new_id" name="new_id" size="20" autocomplete="on" required>
+              </li>
+              <li> <label class="reg" for="new_pw1"> 비밀번호 <em> * </em> </label>
+                <input type="password" id="new_pw1" name="new_pw1" size="20" required>
+              </li>
+              <li> <label class="reg" for="new_pw2"> 비밀번호 확인 <em> * </em> </label>
+                <input type="password" id="new_pw2" name="new_pw2" size="20" required>
+              </li>
+              <li> <label class="reg" for="user_name"> nickname <em> * </em> </label>
+                <input type="text" id="user_name" name="user_name" size="20" required>
+              </li>
+  
+            </ul>
+          </fieldset>
+  
+          <fieldset class="sendform">
+            <input type="submit" value="가입하기">
+            <input type="reset" value="다시쓰기">
+          </fieldset>
+        </form>
+    </body>
+  
+    </html>

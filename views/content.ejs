@@ -15,8 +15,8 @@
         <div class="inside_content">
         <div class="userinfo">
             <b><%= "nickname: " + contents.nickname %></b> <br>
-            <%= "글 작성 시간: " + contents.when_written %><br>
-            <%= "마지막 수정: " + contents.last_updated %>
+            <%= "글 작성 시간: " + contents.when_written.toLocaleString() %><br>
+            <%= "마지막 수정: " + contents.last_updated.toLocaleString() %>
             <div class="update_delete">
             <% var updatelink="/list/update/" + contents.doc_identifier; %>
             <a href=<%=updatelink %>>update</a>

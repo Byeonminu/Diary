@@ -14,12 +14,12 @@ module.exports = function(app) {
     app.use(passport.session());
     
     passport.serializeUser(function(user, done){
-        console.log("serializeUser", user[0].identifier);
+        
         done(null, user[0].identifier);
     })
 
     passport.deserializeUser(function (identifier, done){
-        console.log("deserializeUser", identifier);
+     
         db.query(`select * from users where identifier = ?`, [identifier], function(err, user){
             
             done(null, user);
