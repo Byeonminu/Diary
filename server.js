@@ -9,6 +9,7 @@ var homeRouter = require('./routes/home');
 var authRouter = require('./routes/auth');
 var listRouter = require('./routes/list');
 const session = require('express-session');
+const Filestore = require('session-file-store')(session);
 var flash = require('connect-flash');
 const app = express();
 
@@ -26,7 +27,8 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-    
+    cookie: { httpOnly: true },
+    store: new Filestore()
 }));
 app.use(flash());
 

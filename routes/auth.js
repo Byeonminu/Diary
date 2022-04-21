@@ -12,10 +12,8 @@ router.post('/signin',
      failureRedirect: '/home',
      successRedirect: '/list',
      failureFlash : true,
-    }),
-  function (req, res) {
-    
-  });
+    })
+  );
 
 
 router.post('/signup', function (req, res, next) {
@@ -43,6 +41,7 @@ router.post('/signup', function (req, res, next) {
             db.query(`select * from users where identifier = ?`, [identifier], function (err, user) {
               req.login(user, function (err) { // auto login
                 if (err) { return next(err); }
+                req.session.identifier = user[0].identifier;
                 return res.redirect('/list/' + user[0].identifier);
               });
             })
@@ -54,7 +53,10 @@ router.post('/signup', function (req, res, next) {
 
 router.get('/logout', function (req, res) {
   req.logout();
-  res.redirect('/');
+  req.session.destroy(err =>{
+    res.redirect('/');
+  });
+ 
 });
 
 module.exports = router;

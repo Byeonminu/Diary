@@ -17,12 +17,12 @@ module.exports = function(app) {
         
         done(null, user[0].identifier);
     })
-
+    
     passport.deserializeUser(function (identifier, done){
      
         db.query(`select * from users where identifier = ?`, [identifier], function(err, user){
             
-            done(null, user);
+            done(null, user); // req.user
         })
     })
 
@@ -34,10 +34,9 @@ module.exports = function(app) {
         },
         function (username, pwd, done) {
             const password = bcrypt.hashSync(pwd, 10);
-            
-           
+        
             db.query(`select * from users where id = ? `,[username], function(err, user){
-            console.log('usrs' , user);
+            console.log('passportjs user' , user);
             if (err){ return done(err); }
             if (!user.length){ 
                 console.log('no user')

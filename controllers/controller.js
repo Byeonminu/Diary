@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 
 
     exports.Home_redirecting = function (req, res, next) {
+        console.log('user, home redirecting', req.user[0]);
         return res.redirect('/list/' + req.user[0].identifier);
     }
     exports.Createpage = function (req, res, next) {
@@ -54,18 +55,27 @@ const bcrypt = require('bcrypt');
             })
     }
     exports.Contents_list_page = function (req, res, next) {
-        req.session.cookie.maxAge = 3600000; //cookie maxAge
-        db.query(`select * from writing where user_identifier = ?`, [req.params.identifier], function (err, result) {
-            if (err) return next(err);
-            if (result !== undefined) {
-                res.render("list",
-                    {
-                        lists: result,
-                        nickname: req.user[0].nickname
-                    });
-            }
-            else { res.redirect('/');}
-        })
+        console.log('session', req.session.passport.user);
+        console.log('session', req.params.identifier);
+        if (req.session.passport.user === req.params.identifier){ // islogined
+            
+            db.query(`select * from writing where user_identifier = ?`, [req.params.identifier], function (err, result) {
+                if (err) return next(err);
+                if (result !== undefined) {
+                    res.render("list",
+                        {
+                            lists: result,
+                            nickname: req.user[0].nickname
+                        });
+                }
+                else { res.redirect('/');}
+            })
+        }
+        else{
+            console.log("not logined");
+            res.redirect('/');
+
+        }
     }
 
 
