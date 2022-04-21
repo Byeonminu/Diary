@@ -39,7 +39,7 @@ module.exports = function(app) {
             console.log('passportjs user' , user);
             if (err){ return done(err); }
             if (!user.length){ 
-                console.log('no user')
+                console.log('There is no ID!')
                 return done(null, false, {message: 'There is no ID!'})}
             if (user){
                     bcrypt.compare(pwd, user[0].password, function(err, result){
@@ -50,7 +50,7 @@ module.exports = function(app) {
                         return done(null, user); 
                     }
                     else{ //login fail
-                        console.log('login fail')
+                        console.log('Password is not correct!')
                         return done(null, false, {message : 'Password is not correct!'});
                     }
                     

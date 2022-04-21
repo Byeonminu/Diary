@@ -50,31 +50,36 @@ const bcrypt = require('bcrypt');
                             user: user
                         });
                     }
-                    else {res.redirect('/');}
+                    else {res.redirect('/home');}
                 })
             })
     }
     exports.Contents_list_page = function (req, res, next) {
-        console.log('session', req.session.passport.user);
-        console.log('session', req.params.identifier);
-        if (req.session.passport.user === req.params.identifier){ // islogined
-            
-            db.query(`select * from writing where user_identifier = ?`, [req.params.identifier], function (err, result) {
-                if (err) return next(err);
-                if (result !== undefined) {
-                    res.render("list",
-                        {
-                            lists: result,
-                            nickname: req.user[0].nickname
-                        });
-                }
-                else { res.redirect('/');}
-            })
-        }
-        else{
+        console.log('Contents_list_page');
+    
+        if (!req.session.isLogined){ // not logined
             console.log("not logined");
-            res.redirect('/');
-
+            res.redirect('/home');
+        }
+        else { // islogined
+          
+            if (req.session.passport.user === req.params.identifier){
+                db.query(`select * from writing where user_identifier = ?`, [req.params.identifier], function (err, result) {
+                    if (err) return next(err);
+                    if (result !== undefined) {
+                        res.render("list",
+                            {
+                                lists: result,
+                                nickname: req.user[0].nickname
+                            });
+                    }
+                    else { res.redirect('/home'); }
+                })
+            }
+            else{ 
+                console.log('you cannot enter other peoples diary');
+                res.redirect('/list');
+            }
         }
     }
 

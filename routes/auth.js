@@ -10,10 +10,14 @@ const Controller = require('../controllers/controller');
 router.post('/signin',
   passport.authenticate('local', {
      failureRedirect: '/home',
-     successRedirect: '/list',
-     failureFlash : true,
-    })
-  );
+     failureFlash : true, 
+  }),
+  function (req, res) { // success login, save session -> redirect
+    req.session.isLogined = true
+    req.session.save(function () {
+      res.redirect('/list');
+    });
+  });
 
 
 router.post('/signup', function (req, res, next) {
@@ -26,13 +30,15 @@ router.post('/signup', function (req, res, next) {
   db.query(`select * from users where id = ?`, [id], function (err, id_check) {
     if (err) throw (err);
     if (id_check.length !== 0) { //ID already exists
+      console.log('ID already exists!');
       req.flash('error', 'ID already exists!');
-      return res.redirect('/');
+      return res.redirect('/home');
     }
     else {
       if (req.body.new_pw1 !== req.body.new_pw2) { // password double check
+        console.log('password must be same!');
         req.flash('error', 'password must be same!');
-        return res.redirect('/');
+        return res.redirect('/home');
       }
       db.query(`insert into users (id, password, identifier, nickname) values(?, ?, ?, ? )`,
         [id, password, identifier, nickname], function (err, result) {
@@ -54,7 +60,7 @@ router.post('/signup', function (req, res, next) {
 router.get('/logout', function (req, res) {
   req.logout();
   req.session.destroy(err =>{
-    res.redirect('/');
+    res.redirect('/home');
   });
  
 });

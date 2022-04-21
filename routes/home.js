@@ -3,6 +3,7 @@ var router = express.Router();
 
 
 router.get('/', function(req, res, next) {
+  console.log('home request flash is ', req.flash());
   return res.render('home', {
     message: req.flash().error 
   });
