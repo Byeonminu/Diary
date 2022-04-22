@@ -9,12 +9,13 @@ const bcrypt = require('bcrypt');
         return res.redirect('/list/' + req.user[0].identifier);
     }
     exports.Createpage = function (req, res, next) {
-        return res.render('create', { nickname: req.user[0].nicknam })
+        return res.render('create', { nickname: req.user[0].nickname })
     }
     exports.Create_process = function (req, res, next) {
-        db.query(`insert into writing values(?, ?, ?, now(), now(), ?)`,
+        db.query(`insert into writing (user_identifier, title, description, when_written, last_updated, doc_identifier) 
+        values(?, ?, ?, now(), now(), ?)`,
         [req.user[0].identifier, req.body.title, req.body.description, shortid.generate()], function (err, result) {
-        res.redirect('/list/' + req.user[0].identifier); })
+            res.redirect('/list/' + req.user[0].identifier); })
     }
     exports.Document_update= function (req, res, next) {
      db.query(`select nickname, user_identifier,title, description, doc_identifier 
