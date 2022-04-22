@@ -7,8 +7,7 @@ const db = require('../config/db');
 const Controller = require('../controllers/controller');
 
 
-router.post('/signin',
-  passport.authenticate('local', {
+router.post('/signin', passport.authenticate('local', {
      failureRedirect: '/home',
      failureFlash : true, 
   }),
@@ -20,14 +19,15 @@ router.post('/signin',
   });
 
 
+
 router.post('/signup', function (req, res, next) {
   console.log(req.body);
-  const id = req.body.new_id;
+  const user_id = req.body.new_id;
   const password = bcrypt.hashSync(req.body.new_pw1, 10);
   const password_check = bcrypt.hashSync(req.body.new_pw2, 10);
   const identifier = shortid.generate();
   const nickname = req.body.user_name;
-  db.query(`select * from users where id = ?`, [id], function (err, id_check) {
+  db.query(`select * from users where user_id = ?`, [user_id], function (err, id_check) {
     if (err) throw (err);
     if (id_check.length !== 0) { //ID already exists
       console.log('ID already exists!');
@@ -40,15 +40,18 @@ router.post('/signup', function (req, res, next) {
         req.flash('error', 'password must be same!');
         return res.redirect('/home');
       }
-      db.query(`insert into users (id, password, identifier, nickname) values(?, ?, ?, ? )`,
-        [id, password, identifier, nickname], function (err, result) {
+      db.query(`insert into users (user_id, password, identifier, nickname) values(?, ?, ?, ? )`,
+        [user_id, password, identifier, nickname], function (err, result) {
           if (err) { return next(err); }
           else {
             db.query(`select * from users where identifier = ?`, [identifier], function (err, user) {
               req.login(user, function (err) { // auto login
                 if (err) { return next(err); }
                 req.session.identifier = user[0].identifier;
-                return res.redirect('/list/' + user[0].identifier);
+                req.session.isLogined = true;
+                req.session.save(function (){
+                  return res.redirect('/list/' + user[0].identifier);
+                })
               });
             })
           }

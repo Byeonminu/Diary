@@ -35,7 +35,7 @@ module.exports = function(app) {
         function (username, pwd, done) {
             const password = bcrypt.hashSync(pwd, 10);
         
-            db.query(`select * from users where id = ? `,[username], function(err, user){
+            db.query(`select * from users where user_id = ? `,[username], function(err, user){
             console.log('passportjs user' , user);
             if (err){ return done(err); }
             if (!user.length){ 
