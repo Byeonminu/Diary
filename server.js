@@ -10,12 +10,16 @@ var authRouter = require('./routes/auth');
 var listRouter = require('./routes/list');
 const session = require('express-session');
 const Filestore = require('session-file-store')(session);
+const sequelize = require('./models/index').sequelize;
 var flash = require('connect-flash');
 const app = express();
 
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+sequelize.sync({ force: false }) 
+    .then(() => { console.log('데이터베이스 연결 성공'); })
+    .catch((err) => { console.error(err); });
 
 app.use(logger('dev'));
 app.use(express.json());
