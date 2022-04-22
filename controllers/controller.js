@@ -11,19 +11,25 @@ const { User, Writing } = require('../models');
     exports.Createpage = function (req, res, next) {
         return res.render('create', { nickname: req.user[0].nickname })
     }
-    exports.Create_process = function (req, res, next) {
+    exports.Create_process = async (req, res, next) => { // async await 
         // db.query(`insert into writing (user_identifier, title, description, when_written, last_updated, doc_identifier) 
         // values(?, ?, ?, now(), now(), ?)`,
         // [req.user[0].identifier, req.body.title, req.body.description, shortid.generate()], function (err, result) {
         //     res.redirect('/list/' + req.user[0].identifier); })
-
-        Writing.create({
-            user_identifier: req.user[0].identifier,
-            title: req.body.title,
-            description: req.body.description,
-            doc_identifier: shortid.generate()
-        });
-        res.redirect('/list/' + req.user[0].identifier);
+        try{
+            await Writing.create({
+                user_identifier: req.user[0].identifier,
+                title: req.body.title,
+                description: req.body.description,
+                doc_identifier: shortid.generate()
+            })
+            res.redirect('/list/' + req.user[0].identifier);
+        } catch (err){
+            console.log(err);
+            next(err);
+        }
+       
+        
         
     }
     exports.Document_update= function (req, res, next) {
