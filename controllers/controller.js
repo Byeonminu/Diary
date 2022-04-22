@@ -1,7 +1,7 @@
 const db = require('../config/db');
 const shortid = require('shortid');
-const bcrypt = require('bcrypt');
-const { User, Writing } = require('../models');
+const { User, Writing, sequelize } = require('../models');
+
 
 
     exports.Home_redirecting = function (req, res, next) {
@@ -23,7 +23,7 @@ const { User, Writing } = require('../models');
                 description: req.body.description,
                 doc_identifier: shortid.generate()
             })
-            res.redirect('/list/' + req.user[0].identifier);
+            return res.redirect('/list/' + req.user[0].identifier);
         } catch (err){
             console.log(err);
             next(err);
@@ -39,17 +39,46 @@ const { User, Writing } = require('../models');
             res.render('update', {writing: result[0]})
         })
     }
-    exports.Update_process= function (req, res, next) {
-    db.query(`update writing set title = ?, description = ?, last_updated = NOW() where user_identifier = ? and doc_identifier = ?`,
-        [req.body.title, req.body.description, req.user[0].identifier, req.body.doc_identifier], function (err, result) {
-            if (err) throw (err);
-            else return res.redirect('/list/' + req.user[0].identifier + '/' + req.body.doc_identifier);
-        });
+    exports.Update_process= async (req, res, next) => {
+    // db.query(`update writing set title = ?, description = ?, last_updated = NOW() where user_identifier = ? and doc_identifier = ?`,
+    //     [req.body.title, req.body.description, req.user[0].identifier, req.body.doc_identifier], function (err, result) {
+    //         if (err) throw (err);
+    //         else return res.redirect('/list/' + req.user[0].identifier + '/' + req.body.doc_identifier);
+    //     });
+        var value = {
+            title: req.body.title,
+            description: req.body.description,
+            last_updated: sequelize.literal('CURRENT_TIMESTAMP')
+        };
+        var condition = {
+            where: {
+                user_identifier: req.user[0].identifier,
+                doc_identifier: req.body.doc_identifier
+            }
+        };
+        try{
+            await Writing.update(value,condition);
+            return res.redirect('/list/' + req.user[0].identifier + '/' + req.body.doc_identifier);
+        } catch (err){
+            console.log(err);
+            next(err);
+        }
+
     }
-    exports.Document_delete = function (req, res, next) {
-        db.query(`delete from writing where doc_identifier = ?`, [req.params.doc_identifier], function (err, result) {
-            res.redirect('/list');
-        });
+    exports.Document_delete = async (req, res, next) => {
+        // db.query(`delete from writing where doc_identifier = ?`, [req.params.doc_identifier], function (err, result) {
+        //     res.redirect('/list');
+        // });
+        try{
+            await Writing.destroy({
+                where: { doc_identifier: req.params.doc_identifier }
+            });
+            return res.redirect('/list');
+        } catch(err){
+            console.log(err);
+            next(err);
+        }
+       
     }
     exports.User_content_page =function (req, res, next) {
      db.query(`select * from writing where user_identifier = ?`, [req.params.user_identifier], function (err, user) {

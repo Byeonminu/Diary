@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         when_written: {
-            type: Sequelize.DATE,
+            type: 'TIMESTAMP',
             allowNull: true,
             defaultValue: Sequelize.NOW
         },
