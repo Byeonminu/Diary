@@ -1,7 +1,7 @@
 const db = require('../config/db');
 const shortid = require('shortid');
 const bcrypt = require('bcrypt');
-
+const { User, Writing } = require('../models');
 
 
     exports.Home_redirecting = function (req, res, next) {
@@ -12,10 +12,19 @@ const bcrypt = require('bcrypt');
         return res.render('create', { nickname: req.user[0].nickname })
     }
     exports.Create_process = function (req, res, next) {
-        db.query(`insert into writing (user_identifier, title, description, when_written, last_updated, doc_identifier) 
-        values(?, ?, ?, now(), now(), ?)`,
-        [req.user[0].identifier, req.body.title, req.body.description, shortid.generate()], function (err, result) {
-            res.redirect('/list/' + req.user[0].identifier); })
+        // db.query(`insert into writing (user_identifier, title, description, when_written, last_updated, doc_identifier) 
+        // values(?, ?, ?, now(), now(), ?)`,
+        // [req.user[0].identifier, req.body.title, req.body.description, shortid.generate()], function (err, result) {
+        //     res.redirect('/list/' + req.user[0].identifier); })
+
+        Writing.create({
+            user_identifier: req.user[0].identifier,
+            title: req.body.title,
+            description: req.body.description,
+            doc_identifier: shortid.generate()
+        });
+        res.redirect('/list/' + req.user[0].identifier);
+        
     }
     exports.Document_update= function (req, res, next) {
      db.query(`select nickname, user_identifier,title, description, doc_identifier 

@@ -17,6 +17,20 @@ db.Sequelize = Sequelize;
 db.User = require('./User')(sequelize, Sequelize);
 db.Writing = require('./Writing')(sequelize, Sequelize);
 
+// User.hasMany(Writing, {
+//   foreignKey: 'user_identifier',
+//   sourceKey: 'identifier',
+//   allowNull: false,
+//   constraints: true,
+//   onDelete: 'cascade',
+// });
+// Writing.belongsTo(User, {
+//   foreignKey: 'user_identifier',
+//   targetKey: 'idnentifier'
+// });
+
+
+
 module.exports = db;
 
 

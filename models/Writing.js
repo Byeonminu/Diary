@@ -22,15 +22,19 @@ module.exports = (sequelize, DataTypes) => {
         },
         when_written: {
             type: Sequelize.DATE,
-            allowNull: true
+            allowNull: true,
+            defaultValue: Sequelize.NOW
         },
         last_updated:{
             type: 'TIMESTAMP',
             allowNull: true,
+            defaultValue: Sequelize.NOW
+
         },
         doc_identifier: {
             type: Sequelize.STRING(100),
             allowNull: false,
+          
         }
     }, {
         charset: "utf8", 
