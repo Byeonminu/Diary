@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('fs');
+
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
@@ -15,6 +15,7 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.User = require('./User')(sequelize, Sequelize);
+db.Writing = require('./Writing')(sequelize, Sequelize);
 
 module.exports = db;
 
