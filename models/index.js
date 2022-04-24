@@ -14,21 +14,25 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.User = require('./User')(sequelize, Sequelize);
-db.Writing = require('./Writing')(sequelize, Sequelize);
+const User = require('./User')(sequelize, Sequelize);
+const Writing = require('./Writing')(sequelize, Sequelize);
 
-// User.hasMany(Writing, {
-//   foreignKey: 'user_identifier',
-//   sourceKey: 'identifier',
-//   allowNull: false,
-//   constraints: true,
-//   onDelete: 'cascade',
-// });
-// Writing.belongsTo(User, {
-//   foreignKey: 'user_identifier',
-//   targetKey: 'idnentifier'
-// });
 
+
+User.hasMany(Writing, {
+  foreignKey: 'user_identifier',
+  sourceKey: 'identifier',
+  allowNull: false,
+  constraints: true,
+  onDelete: 'cascade',
+});
+Writing.belongsTo(User, {
+  foreignKey: 'user_identifier',
+  targetKey: 'identifier'
+});
+
+db.User = User;
+db.Writing = Writing;
 
 
 module.exports = db;

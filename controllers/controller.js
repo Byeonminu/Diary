@@ -5,7 +5,7 @@ const { User, Writing, sequelize } = require('../models');
 
 
     exports.Home_redirecting = function (req, res, next) {
-        console.log('user, home redirecting', req.user[0]);
+        // console.log('user, home redirecting', req.user[0]);
         return res.redirect('/list/' + req.user[0].identifier);
     }
     exports.Createpage = function (req, res, next) {
@@ -38,6 +38,7 @@ const { User, Writing, sequelize } = require('../models');
      [req.params.doc_identifier], function (err, result) {
             res.render('update', {writing: result[0]})
         })
+        
     }
     exports.Update_process= async (req, res, next) => {
     // db.query(`update writing set title = ?, description = ?, last_updated = NOW() where user_identifier = ? and doc_identifier = ?`,
@@ -99,27 +100,40 @@ const { User, Writing, sequelize } = require('../models');
                 })
             })
     }
-    exports.Contents_list_page = function (req, res, next) {
+    exports.Contents_list_page = async (req, res, next) => {
         console.log('Contents_list_page');
-    
         if (!req.session.isLogined){ // not logined
             console.log("not logined");
             res.redirect('/home');
         }
         else { // islogined
-          
             if (req.session.passport.user === req.params.identifier){
-                db.query(`select * from writing where user_identifier = ?`, [req.params.identifier], function (err, result) {
-                    if (err) return next(err);
-                    if (result !== undefined) {
-                        res.render("list",
+                // db.query(`select * from writing where user_identifier = ?`, [req.params.identifier], function (err, result) {
+                //     if (err) return next(err);
+                //     if (result !== undefined) {
+                //         res.render("list",
+                //             {
+                //                 lists: result,
+                //                 nickname: req.user[0].nickname
+                //             });
+                //     }
+                //     else { res.redirect('/home'); }
+                // })
+                 try {
+                    const page_list = await Writing.findAll({
+                        where : {
+                            user_identifier: req.params.identifier
+                        }
+                    });
+                        return res.render("list",
                             {
-                                lists: result,
+                                lists: page_list,
                                 nickname: req.user[0].nickname
                             });
-                    }
-                    else { res.redirect('/home'); }
-                })
+                     } catch(err){
+                         console.log(err);
+                         next(err);
+                     }
             }
             else{ 
                 console.log('you cannot enter other peoples diary');
