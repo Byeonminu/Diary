@@ -32,13 +32,37 @@ const { User, Writing, sequelize } = require('../models');
         
         
     }
-    exports.Document_update= function (req, res, next) {
+    exports.Document_update= async (req, res, next) => {
      db.query(`select nickname, user_identifier,title, description, doc_identifier 
      from users left join writing on users.identifier = writing.user_identifier where doc_identifier = ?;`, 
      [req.params.doc_identifier], function (err, result) {
-            res.render('update', {writing: result[0]})
+       res.render('update', { writing: result[0] })
         })
-        
+    
+        // try{
+        //     const result = await User.findAll({
+        //         //  where: { identifier: req.user[0],identifier},
+        //         include: [
+        //             {
+        //                 model: Writing,
+        //                 where: {
+        //                     doc_identifier: req.params.doc_identifier,
+                            
+        //                 },
+        //                 attributes: ['title', 'description', 'doc_identifier', 'user_identifier' ],
+        //                 required: false
+        //             }
+        //         ],
+        //         attributes: ['nickname']
+               
+        //     })
+        //     console.log('update_info', result);
+
+        //     res.render('update', { writing: result[0] })
+        // } catch(err){
+        //     console.log(err);
+        //     next(err);
+        // }
     }
     exports.Update_process= async (req, res, next) => {
     // db.query(`update writing set title = ?, description = ?, last_updated = NOW() where user_identifier = ? and doc_identifier = ?`,

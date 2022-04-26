@@ -11,7 +11,7 @@ var listRouter = require('./routes/list');
 const session = require('express-session');
 const Filestore = require('session-file-store')(session);
 const sequelize = require('./models/index').sequelize;
-var flash = require('connect-flash');
+const flash = require('connect-flash');
 const app = express();
 
 app.set('views', path.join(__dirname, 'views'));
