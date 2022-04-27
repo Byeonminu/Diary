@@ -1,14 +1,16 @@
 const { application } = require('express');
 const { use } = require('passport');
+const { User, Writing, sequelize } = require('../models');
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy;
+const db = require('../config/db');
+const bcrypt = require('bcrypt');
+
+
 
 module.exports = function(app) {
 
-    const passport = require('passport')
-    const LocalStrategy = require('passport-local').Strategy;
-    const db = require('../config/db');
     
-    const bcrypt = require('bcrypt');
-
     
     app.use(passport.initialize()); 
     app.use(passport.session());
@@ -18,12 +20,20 @@ module.exports = function(app) {
         done(null, user[0].identifier);
     })
     
-    passport.deserializeUser(function (identifier, done){
-     
-        db.query(`select * from users where identifier = ?`, [identifier], function(err, user){
-            
-            done(null, user); // req.user
-        })
+    passport.deserializeUser(async (identifier, done) => {
+        
+        try{
+            const user = await User.findAll({
+                where: {
+                    identifier: identifier
+                }
+            })
+          return done(null, user); // req.user
+        } catch(err){
+            console.log(err);
+            next(err);
+        }
+
     })
 
     passport.use(new LocalStrategy(
@@ -33,36 +43,36 @@ module.exports = function(app) {
             session: true,
 
         },
-        function (username, pwd, done) {
+        async (username, pwd, done) => {
             const password = bcrypt.hashSync(pwd, 10);
         
-            db.query(`select * from users where user_id = ? `,[username], function(err, user){
-            console.log('passportjs user' , user);
-            if (err){ return done(err); }
-            if (!user.length){ 
-                console.log('There is no ID!')
-                return done(null, false, {message: '존재하지 않는 아이디입니다.'})}
-            if (user){
-                    bcrypt.compare(pwd, user[0].password, function(err, result){
-                    if(result){ // login success
-                        
-                        console.log("correct!");
-                        return done(null, user); 
+            try{
+                const user = await User.findAll({
+                    where: {
+                        user_id: username
                     }
-                    else{ //login fail
-                        console.log('Password is not correct!')
-                        return done(null, false, { message: '비밀번호가 틀렸습니다.' });
-                    }
-                    
-                })
-                         
-                        
-            }
-                    
-                
+                });
+                if (!user.length) {
+                    console.log('There is no ID!')
+                    return done(null, false, { message: '존재하지 않는 아이디입니다.' })
+                }
+                if (user) {
+                    bcrypt.compare(pwd, user[0].password, function (err, result) {
+                        if (result) { // login success
 
-            });
-           
+                            console.log("correct!");
+                            return done(null, user);
+                        }
+                        else { //login fail
+                            console.log('Password is not correct!')
+                            return done(null, false, { message: '비밀번호가 틀렸습니다.' });
+                        }
+                    })
+                }
+            } catch(err){
+                console.log(err);
+                next(err);
+            }           
         }
     ));
 
