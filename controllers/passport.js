@@ -3,7 +3,6 @@ const { use } = require('passport');
 const { User, Writing, sequelize } = require('../models');
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
-const db = require('../config/db');
 const bcrypt = require('bcrypt');
 
 

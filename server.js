@@ -1,13 +1,13 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var homeRouter = require('./routes/home');
-var authRouter = require('./routes/auth');
-var listRouter = require('./routes/list');
+let indexRouter = require('./routes/index');
+let homeRouter = require('./routes/home');
+let authRouter = require('./routes/auth');
+let listRouter = require('./routes/list');
 const session = require('express-session');
 const Filestore = require('session-file-store')(session);
 const sequelize = require('./models/index').sequelize;
@@ -36,7 +36,7 @@ app.use(session({
 }));
 app.use(flash());
 
-var passport = require('./controllers/passport')(app);
+let passport = require('./controllers/passport')(app);
 
 
 app.use('/', indexRouter);

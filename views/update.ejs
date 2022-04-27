@@ -7,16 +7,16 @@
 
 <body>
     <a href="/auth/logout" style="float:right"> logout </a>
-    <div class="userinfo"><%= writing.nickname %></div>
+    <div class="userinfo"><%= writing.dataValues.nickname %></div>
     <form action="/list/update_process" method="post">
         <br>
         제목
-        <input type="text" name="title" value= "<%= writing.title %>" >
+        <input type="text" name="title" value= "<%= writing.writings[0].dataValues.title %>" >
         <br>
         내용
-        <textarea  class="desc"  name="description"> <%= writing.description %> </textarea>
+        <textarea  class="desc"  name="description"> <%= writing.writings[0].dataValues.description %> </textarea>
         <br>
-        <input type = "hidden" name = "doc_identifier" value= "<%= writing.doc_identifier %>" >
+        <input type = "hidden" name = "doc_identifier" value= "<%= writing.writings[0].dataValues.doc_identifier %>" >
         <input type="submit" value="update">
     </form>
 

@@ -11,32 +11,32 @@
     <a href="/auth/logout" style="float:right"> logout </a>
     <div class="list">
         <br>
-        <h2 class="title"><%= contents.title %></h2>
+        <h2 class="title"><%= contents.writings[0].dataValues.title %></h2>
         <div class="inside_content">
         <div class="userinfo">
-            <b><%= "nickname: " + contents.nickname %></b> <br>
-            <%= "글 작성 시간: " + contents.when_written.toLocaleString() %><br>
-            <%= "마지막 수정: " + contents.last_updated.toLocaleString() %>
+            <b><%= "nickname: " + contents.dataValues.nickname %></b> <br>
+            <%= "글 작성 시간: " + contents.writings[0].dataValues.when_written.toLocaleString() %><br>
+            <%= "마지막 수정: " + contents.writings[0].dataValues.last_updated.toLocaleString() %>
             <div class="update_delete">
-            <% var updatelink="/list/update/" + contents.doc_identifier; %>
+            <% var updatelink="/list/update/" + contents.writings[0].dataValues.doc_identifier; %>
             <a href=<%=updatelink %>>update</a>
             ||
-            <% var deletelink="/list/delete/" + contents.doc_identifier; %>
+            <% var deletelink="/list/delete/" + contents.writings[0].dataValues.doc_identifier; %>
             <a href=<%=deletelink %>>delete</a>
             </div>
         </div>
         
         <hr>
-        <% var description = contents.description.replaceAll(/(\r\n)/g, "<br/>"); %>
+        <% var description = contents.writings[0].dataValues.description.replaceAll(/(\r\n)/g, "<br/>"); %>
             <%- description %>
 
     </div>
-    <% for(var i=0; i < user.length; i++) { %>
-        <% var link="/list/" +user[i].user_identifier + "/" + user[i].doc_identifier; %>
+    <% for(var i=0; i < writings.length; i++) { %>
+        <% var link="/list/" +writings[i].user_identifier + "/" + writings[i].doc_identifier; %>
     
             <div class="list_in_contentspage">
                 <br>
-                <ui><a href=<%=link %> ><%= i + '. ' + user[i].title %></a></ui>
+                <ui><a href=<%=link %> ><%= i + '. ' + writings[i].title %></a></ui>
     
                 <hr/>
             </div>
