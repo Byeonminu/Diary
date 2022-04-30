@@ -12,13 +12,16 @@ const { User, Writing, sequelize } = require('../models');
     }
     exports.Create_process = async (req, res, next) => { // async await 
         try{
-            await Writing.create({
+            const user = await Writing.create({
                 user_identifier: req.user[0].identifier,
                 title: req.body.title,
                 description: req.body.description,
                 doc_identifier: shortid.generate()
             })
+            if(user)
             return res.redirect('/list/' + req.user[0].identifier);
+            else
+            return res.status(404).send('cannot create page')
         } catch (err){
             console.log(err);
             next(err);
