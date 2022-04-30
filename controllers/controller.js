@@ -46,7 +46,10 @@ const { User, Writing, sequelize } = require('../models');
                 attributes: ['nickname']
                
             })
+            if(result) 
             return res.render('update', { writing: result[0] })
+            else
+            return res.status(404).send('cannot fetch update page')
         } catch(err){
             console.log(err);
             next(err);
@@ -65,8 +68,11 @@ const { User, Writing, sequelize } = require('../models');
                     doc_identifier: req.body.doc_identifier
                 }
             };
-            await Writing.update(value,condition);
+            const result = await Writing.update(value,condition);
+            if(result)
             return res.redirect('/list/' + req.user[0].identifier + '/' + req.body.doc_identifier);
+            else
+            return res.status(404).send('cannot update page');
         } catch (err){
             console.log(err);
             next(err);
@@ -75,10 +81,13 @@ const { User, Writing, sequelize } = require('../models');
     }
     exports.Document_delete = async (req, res, next) => {
         try{
-            await Writing.destroy({
+            const result = await Writing.destroy({
                 where: { doc_identifier: req.params.doc_identifier }
             });
+            if(result)
             return res.redirect('/list');
+            else
+            return res.status(404).send('cannot delete page');
         } catch(err){
             console.log(err);
             next(err);
@@ -93,33 +102,36 @@ const { User, Writing, sequelize } = require('../models');
              },
              attributes:['title', 'user_identifier', 'doc_identifier']
          });
-         try{
-             const result = await User.findAll({
-                 where: {identifier: req.user[0].identifier },
-                 include: [
-                     {
-                         model: Writing,
-                         where: {
-                             doc_identifier: req.params.doc_identifier,
-                             user_identifier: req.params.user_identifier
-                         },
-                         attributes: ['title', 'doc_identifier', 'user_identifier', 'when_written', 'last_updated','description'],
-                         required: false
-                     }
-                 ],
-                 attributes: ['nickname']
-             });
-             if (result !== undefined) {
-                 return res.render("content", {
-                     contents: result[0],
-                     writings: writings
-                 });
-             }
-             else { res.redirect('/home'); }
-         } catch(err){
-             console.log(err);
-             next(err);
-         }
+         if(writings){
+            try{
+                const result = await User.findAll({
+                    where: {identifier: req.user[0].identifier },
+                    include: [
+                        {
+                            model: Writing,
+                            where: {
+                                doc_identifier: req.params.doc_identifier,
+                                user_identifier: req.params.user_identifier
+                            },
+                            attributes: ['title', 'doc_identifier', 'user_identifier', 'when_written', 'last_updated','description'],
+                            required: false
+                        }
+                    ],
+                    attributes: ['nickname']
+                });
+                if (result) {
+                    return res.render("content", {
+                        contents: result[0],
+                        writings: writings
+                    });
+                }
+                else { return res.redirect('/home'); }
+            } catch(err){
+                console.log(err);
+                next(err);
+            }
+        }
+        else { return res.redirect('/home');}
      } catch(err2){
          console.log(err2);
          next(err2);
@@ -130,7 +142,7 @@ const { User, Writing, sequelize } = require('../models');
         console.log('Contents_list_page');
         if (!req.session.isLogined){ // not logined
             console.log("not logined");
-            res.redirect('/home');
+            return res.redirect('/home');
         }
         else { // islogined
             if (req.session.passport.user === req.params.identifier){
@@ -140,11 +152,14 @@ const { User, Writing, sequelize } = require('../models');
                             user_identifier: req.params.identifier
                         }
                     });
-                        return res.render("list",
+                    if(page_list)
+                    return res.render("list",
                             {
                                 lists: page_list,
                                 nickname: req.user[0].nickname
                             });
+                     else 
+                     return res.status(404).send('cannot fetch contents list page')
                      } catch(err){
                          console.log(err);
                          next(err);
