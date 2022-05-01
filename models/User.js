@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         nickname: {
             type: Sequelize.STRING(20),
-            allowNull: true
+            allowNull: false
         },
         when_created:{
             type: 'TIMESTAMP',

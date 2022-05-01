@@ -23,7 +23,6 @@ router.post('/signin', passport.authenticate('local', {
 router.post('/signup', async (req, res, next) => {
   const user_id = req.body.new_id;
   const password = bcrypt.hashSync(req.body.new_pw1, 10);
-  const password_check = bcrypt.hashSync(req.body.new_pw2, 10);
   const identifier = shortid.generate();
   const nickname = req.body.user_name;
   
@@ -91,5 +90,56 @@ router.get('/logout', function (req, res) {
   });
  
 });
+
+
+router.get('/change',(req,res,next) =>{
+    if(!req.session.isLogined) return res.redirect('/home');
+    return res.render('change', {flash: req.flash('error')})
+})
+
+
+router.post('/change_process', async (req,res,next) =>{
+
+  const user = await User.findAll({
+    where: {
+      identifier: req.session.passport.user
+    }
+  });
+
+  bcrypt.compare(req.body.cur_pw, user[0].dataValues.password, async(err, result) => { // current pwd check
+    if(!result){  
+      req.flash('error', '현재 비밀번호가 다릅니다.');
+      req.session.save(() =>{
+        return res.redirect('/auth/change');
+      })
+    }
+    else{
+        if(req.body.new_pw1 !== req.body.new_pw2){ //new pwd double check
+        req.flash('error', '새 비밀번호가 같아야 합니다.');
+        req.session.save(() => {
+          return res.redirect('/auth/change');
+        })
+      }
+      else{
+          const new_password = bcrypt.hashSync(req.body.new_pw1, 10);
+
+          await User.update(
+            { password: new_password },
+            {
+              where: {
+                identifier: req.session.passport.user
+              }
+            }
+          )
+          return res.redirect('/list/' + req.session.passport.user);
+      }
+   }
+
+  })
+
+
+
+})
+
 
 module.exports = router;

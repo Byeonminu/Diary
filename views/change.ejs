@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<head>
+    <title>비밀번호 변경</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+  
+            <%= flash %>
+            <form action="/auth/change_process" method="post">
+                <fieldset>
+                    <legend> 비밀번호 변경하기 </legend>
+                    <ul>
+
+                        <li> <label class="reg" for="new_id"> 현재 비밀번호 <em> * </em> </label>
+                            <input type="password" id="new_id" name="cur_pw" size="20" autocomplete="on" required>
+                        </li>
+                        <li> <label class="reg" for="new_pw1"> 새 비밀번호 <em> * </em> </label>
+                            <input type="password" id="new_pw1" name="new_pw1" size="20" required>
+                        </li>
+                        <li> <label class="reg" for="new_pw2"> 새 비밀번호 확인 <em> * </em> </label>
+                            <input type="password" id="new_pw2" name="new_pw2" size="20" required>
+                        </li>
+                    </ul>
+                </fieldset>
+
+                <fieldset class="sendform">
+                    <input type="submit" value="변경하기">
+                    <input type="reset" value="다시쓰기">
+                </fieldset>
+            </form>
+    </body>
+
+    </html>
