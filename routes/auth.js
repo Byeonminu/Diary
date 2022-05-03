@@ -20,7 +20,7 @@ router.post('/signin', passport.authenticate('local', {
 
 
 
-router.post('/signup', async (req, res, next) => {
+router.post('/new', async (req, res, next) => {
   const user_id = req.body.new_id;
   const password = bcrypt.hashSync(req.body.new_pw1, 10);
   const identifier = shortid.generate();
@@ -92,13 +92,13 @@ router.get('/logout', function (req, res) {
 });
 
 
-router.get('/change',(req,res,next) =>{
+router.get('/pwd',(req,res,next) =>{
     if(!req.session.isLogined) return res.redirect('/home');
-    return res.render('change', {flash: req.flash('error')})
+    return res.render('pwd_change', {flash: req.flash('error')})
 })
 
 
-router.post('/change_process', async (req,res,next) =>{
+router.post('/pwd', async (req,res,next) =>{
 
   const user = await User.findAll({
     where: {
@@ -110,14 +110,14 @@ router.post('/change_process', async (req,res,next) =>{
     if(!result){  
       req.flash('error', '현재 비밀번호가 다릅니다.');
       req.session.save(() =>{
-        return res.redirect('/auth/change');
+        return res.redirect('/auth/pwd');
       })
     }
     else{
         if(req.body.new_pw1 !== req.body.new_pw2){ //new pwd double check
         req.flash('error', '새 비밀번호가 같아야 합니다.');
         req.session.save(() => {
-          return res.redirect('/auth/change');
+          return res.redirect('/auth/pwd');
         })
       }
       else{

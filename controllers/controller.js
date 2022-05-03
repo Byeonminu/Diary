@@ -19,7 +19,7 @@ const { User, Writing, sequelize } = require('../models');
                 doc_identifier: shortid.generate()
             })
             if(user)
-            return res.redirect('/list/' + req.user[0].identifier);
+                return res.redirect('/list/' + req.user[0].identifier);
             else
             return res.status(404).send('cannot create page')
         } catch (err){
@@ -70,7 +70,7 @@ const { User, Writing, sequelize } = require('../models');
             };
             const result = await Writing.update(value,condition);
             if(result)
-            return res.redirect('/list/' + req.user[0].identifier + '/' + req.body.doc_identifier);
+                return res.redirect('/writings/' + req.user[0].identifier + '/' + req.body.doc_identifier);
             else
             return res.status(404).send('cannot update page');
         } catch (err){

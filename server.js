@@ -8,6 +8,7 @@ let indexRouter = require('./routes/index');
 let homeRouter = require('./routes/home');
 let authRouter = require('./routes/auth');
 let listRouter = require('./routes/list');
+let writingstRouter = require('./routes/writings');
 const session = require('express-session');
 const Filestore = require('session-file-store')(session);
 const sequelize = require('./models/index').sequelize;
@@ -44,6 +45,7 @@ app.use('/', indexRouter);
 app.use('/home', homeRouter);
 app.use('/auth', authRouter);
 app.use('/list', listRouter);
+app.use('/writings', writingstRouter);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

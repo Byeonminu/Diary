@@ -8,7 +8,7 @@
 <body>
     <a href="/auth/logout" style="float:right"> logout </a>
     <div class="userinfo"><%= writing.dataValues.nickname %></div>
-    <form action="/list/update_process?_method=PUT" method="post">
+    <form action="/writings/<%= writing.writings[0].dataValues.doc_identifier %>?_method=PUT" method="post">
         <br>
         제목
         <input type="text" name="title" value= "<%= writing.writings[0].dataValues.title %>" >
