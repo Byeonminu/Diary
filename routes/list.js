@@ -12,9 +12,9 @@ router.post('/create_process',Controller.Create_process);
 
 router.get('/update/:doc_identifier', Controller.Document_update);
 
-router.post('/update_process', Controller.Update_process);
+router.put('/update_process', Controller.Update_process);
 
-router.get('/delete/:doc_identifier', Controller.Document_delete)
+router.delete('/delete/:doc_identifier', Controller.Document_delete)
 
 router.get('/:user_identifier/:doc_identifier', Controller.User_content_page);
 

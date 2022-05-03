@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-
+<html>
 <head>
-    <title><%= contents.title %></title>
+    <title><%= contents.writings[0].dataValues.title %></title>
     <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 
 <body>
-
+    <a href="/list/<% contents.writings[0].dataValues.user_identifier %>">목록으로</a>
     <a href="/auth/logout" style="float:right"> logout </a>
     <div class="list">
         <br>
@@ -20,9 +20,11 @@
             <div class="update_delete">
             <% var updatelink="/list/update/" + contents.writings[0].dataValues.doc_identifier; %>
             <a href=<%=updatelink %>>update</a>
-            ||
             <% var deletelink="/list/delete/" + contents.writings[0].dataValues.doc_identifier; %>
-            <a href=<%=deletelink %>>delete</a>
+            <% console.log('주소' , deletelink) %>
+            <form action= "<%=deletelink %>?_method=DELETE" method = "post">
+                <input type="submit" value="delete">
+            </form>
             </div>
         </div>
         
@@ -44,3 +46,5 @@
 
 
 </body>
+
+</html>
