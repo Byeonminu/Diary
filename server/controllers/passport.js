@@ -1,6 +1,6 @@
 const { application } = require('express');
 const { use } = require('passport');
-const { User, Writing, sequelize } = require('../models');
+const { User, Writing, sequelize } = require('../../database/models');
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');

@@ -4,7 +4,7 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 const shortid = require('shortid');
 const Controller = require('../controllers/controller');
-const { User, Writing, sequelize } = require('../models');
+const { User, Writing, sequelize } = require('../../database/models');
 
 
 router.post('/signin', passport.authenticate('local', {

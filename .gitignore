@@ -1,7 +1,10 @@
 #database
-/config
+database/config
 
-/bin
-/node_modules
+bin
+sessions
 
-/sessions
+
+
+# Dependency directories
+node_modules/

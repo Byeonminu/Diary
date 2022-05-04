@@ -2,8 +2,9 @@
   "name": "diary",
   "version": "0.0.0",
   "private": true,
+  "main": "server.js",
   "scripts": {
-    "start": "npx nodemon server.js",
+    "start": "npx nodemon server/server.js",
     "test": "jest"
   },
   "dependencies": {

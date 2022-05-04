@@ -1,5 +1,5 @@
 const shortid = require('shortid');
-const { User, Writing, sequelize } = require('../models');
+const { User, Writing, sequelize } = require('../../database/models');
 
 
 

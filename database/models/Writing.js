@@ -22,13 +22,13 @@ module.exports = (sequelize, DataTypes) => {
         },
         when_written: {
             type: 'TIMESTAMP',
-            allowNull: true,
-            defaultValue: Sequelize.NOW
+            allowNull: false,
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP()')
         },
         last_updated:{
             type: 'TIMESTAMP',
-            allowNull: true,
-            defaultValue: Sequelize.NOW
+            allowNull: false,
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP()')
 
         },
         doc_identifier: {
