@@ -46,18 +46,18 @@ This is my first personal project. It is a project that has experienced the actu
 
 ### __3. Database Design__
 - ### users - Table that stores user information
-    <img src="./img/users.png" width= 500>
+    <img src="./database/config/img/users.png" width= 500>
 
 <br/>
 
 - ### writing - Table that stores user writings
-    <img src="./img/writing.png" width= 500>
+    <img src="./database/config/img/writing.png" width= 500>
 
 <br/>
 
 ### __4. Database Design__
 ### I did my best to make "Restful API".
-<img src="./img/api.png" width= 600>
+<img src="./database/config/img/api.png" width= 600>
 
 <br/>
 
