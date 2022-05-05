@@ -1,8 +1,8 @@
-jest.mock('../models')
+jest.mock('../database/models')
 const { Home_redirecting, Createpage, Create_process, 
         Document_update, Update_process, Document_delete,
-        User_content_page, Contents_list_page } = require('../controllers/controller');
-const { Writing, User } = require('../models');
+        User_content_page, Contents_list_page } = require('../server/controllers/controller');
+const { Writing, User } = require('../database/models');
 
 const req = {
     user: [{
@@ -126,7 +126,7 @@ describe('Update_test', () =>{
         Writing.update.mockReturnValue(Promise.resolve(true));
         await Update_process(req, res, next);
         expect(res.redirect).toBeCalledTimes(1);
-        expect(res.redirect).toBeCalledWith('/list/' + req.user[0].identifier + '/' + req.body.doc_identifier);
+        expect(res.redirect).toBeCalledWith('/writings/' + req.user[0].identifier + '/' + req.body.doc_identifier);
     })
 
     test('4.2 Update_process_test - db failed', async () => {

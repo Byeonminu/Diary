@@ -7,7 +7,21 @@ const Controller = require('../controllers/controller');
 const { User, Writing, sequelize } = require('../../database/models');
 
 
-router.post('/signin', passport.authenticate('local', {
+router.get('/google', passport.authenticate('google', {
+           scope: ['profile'] }));
+
+router.get('/google/callback', passport.authenticate('google', {
+     failureRedirect: '/home' 
+  }),
+  function (req, res) {
+    req.session.isLogined = true
+    req.session.save(function () {
+      return res.redirect('/list');
+    });
+  });
+
+
+router.post('/login', passport.authenticate('local', {
      failureRedirect: '/',
      failureFlash : true, 
   }),

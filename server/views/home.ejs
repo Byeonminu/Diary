@@ -10,7 +10,7 @@
     <body>
   
       <%= message %>
-        <form action="/auth/signin" method="post">
+        <form action="/auth/login" method="post">
           <fieldset>
             <legend> Sign in </legend>
   
@@ -49,6 +49,8 @@
             <input type="reset" value="다시쓰기">
           </fieldset>
         </form>
+
+        <a href ="/auth/google">구글로 로그인하기</a>
     </body>
   
     </html>

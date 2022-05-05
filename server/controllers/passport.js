@@ -3,7 +3,11 @@ const { use } = require('passport');
 const { User, Writing, sequelize } = require('../../database/models');
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const bcrypt = require('bcrypt');
+const { identifier } = require('@babel/types');
+const e = require('connect-flash');
+const credential = require('../../database/config/google.json').web;
 
 
 
@@ -15,8 +19,8 @@ module.exports = function(app) {
     app.use(passport.session());
     
     passport.serializeUser(function(user, done){
-        
-        done(null, user[0].identifier);
+
+        done(null, user.identifier);
     })
     
     passport.deserializeUser(async (identifier, done) => {
@@ -60,7 +64,7 @@ module.exports = function(app) {
                         if (result) { // login success
 
                             console.log("correct!");
-                            return done(null, user);
+                            return done(null, user[0]);
                         }
                         else { //login fail
                             console.log('Password is not correct!')
@@ -75,6 +79,38 @@ module.exports = function(app) {
         }
     ));
 
+
+    passport.use(new GoogleStrategy({
+        clientID: credential.client_id,
+        clientSecret: credential.client_secret,
+        callbackURL: credential.redirect_uris[0],
+    },
+        async (accessToken, refreshToken, profile, cd)  =>{
+            try {   
+                const already_user = await User.findAll({
+                    where : {identifier : profile.id}
+                });
+                if(already_user.length !== 0){
+                    return cd(null, already_user[0]);
+                }
+                else{
+                    const user = await {
+                        user_id: 'google',
+                        password: 'google',
+                        identifier: profile.id,
+                        nickname: profile.displayName,
+                    }
+                    const check = await User.create(user);
+                    if (check) {
+                        return cd(null, user);
+                    }
+                }
+            } catch(err){
+                console.log(err);
+            }
+           
+        }
+    ));
     
     return passport;
 

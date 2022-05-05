@@ -1,5 +1,6 @@
-#database
-database/config
+#config
+database/config/config.json
+database/config/google.json
 
 bin
 sessions
@@ -8,3 +9,6 @@ sessions
 
 # Dependency directories
 node_modules/
+
+# images for Readme 
+img/
