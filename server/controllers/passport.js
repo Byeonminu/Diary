@@ -86,6 +86,7 @@ module.exports = function(app) {
         callbackURL: credential.redirect_uris[0],
     },
         async (accessToken, refreshToken, profile, cd)  =>{
+            console.log('구글 로그인 ', accessToken, refreshToken, profile);
             try {   
                 const already_user = await User.findAll({
                     where : {identifier : profile.id}
