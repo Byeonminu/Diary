@@ -1,4 +1,4 @@
-# Diary
+# Diary (Incomplete)
 
 ## Background
 * * *
@@ -11,6 +11,7 @@ This is my first personal project. It is a project that has experienced the actu
 * * *
     git clone https://github.com/Byeonminu/Diary.git
     cd Diary
+    ...
 
 <br/>
 
