@@ -1,7 +1,7 @@
 const shortid = require('shortid');
 const { User, Writing, sequelize } = require('../../database/models');
-
-
+const {google} = require('googleapis');
+const credential = require('../../database/config/google.json').web;
 
 
     exports.Home_redirecting = function (req, res, next) {
@@ -171,7 +171,51 @@ const { User, Writing, sequelize } = require('../../database/models');
             }
         }
     }
-
-
-
+    exports.Calendar_page = async (request, response, next) => {
+        
+        const { client_secret, client_id, redirect_uris } = credential;
+        const oAuth2Client = new google.auth.OAuth2(
+            client_id, client_secret, redirect_uris[0]);
+    
+        try{
+            const access_token = await User.findAll({
+            where:{
+               user_id:'google'
+            }
+        })
+        if(access_token.length != 0){
+            oAuth2Client.setCredentials({access_token:access_token[0].password});
+            console.log("oAuth2Client : ", oAuth2Client);
+            const calendar = google.calendar({version: "v3" , auth: oAuth2Client});
+            calendar.events.list({
+                calendarId: 'primary',
+                timeMin: (new Date()).toISOString(),
+                maxResults: 10,
+                singleEvents: true,
+                orderBy: 'startTime',
+            }, (err, res) => {
+                if (err) return console.log('The API returned an error: ' + err);
+                const events = res.data.items;
+                if (events.length) {
+                    console.log('Upcoming 10 events:');
+                    let k = events.length;
+                    while(k > 0){ 
+                        events.map((event, i) => {
+                            const start = event.start.dateTime || event.start.date;
+                            console.log(`${start} - ${event.summary}`);
+                            k -= 1;
+                        });
+                    }
+                    return response.send('끝');
+                } else {
+                    console.log('No upcoming events found.');
+                }
+            });
+        }
+    } catch(err){
+        console.log(err);
+        next(err);
+    }
+        
+}
     

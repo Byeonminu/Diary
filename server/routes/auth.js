@@ -5,10 +5,10 @@ const bcrypt = require('bcrypt');
 const shortid = require('shortid');
 const Controller = require('../controllers/controller');
 const { User, Writing, sequelize } = require('../../database/models');
-const google = require('googleapis');
+
 
 router.get('/google', passport.authenticate('google', {
-  scope: ['profile', 'https://www.googleapis.com/auth/calendar.readonly'], accessType: 'offline' }));
+  scope: ['profile', 'https://www.googleapis.com/auth/calendar.readonly'], accessType: 'offline'}));
 
 router.get('/google/callback', passport.authenticate('google', {
      failureRedirect: '/home'

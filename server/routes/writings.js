@@ -4,7 +4,7 @@ const Controller = require('../controllers/controller');
 
 
 
-
+router.get('/calendar',Controller.Calendar_page);
 
 router.get('/new-writings', Controller.Createpage);
 

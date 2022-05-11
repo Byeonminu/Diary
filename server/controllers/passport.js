@@ -14,7 +14,7 @@ const credential = require('../../database/config/google.json').web;
 module.exports = function(app) {
 
     
-    
+
     app.use(passport.initialize()); 
     app.use(passport.session());
     
@@ -97,13 +97,14 @@ module.exports = function(app) {
                 else{
                     const user = await {
                         user_id: 'google',
-                        password: 'google',
+                        password: accessToken,
                         identifier: profile.id,
                         nickname: profile.displayName,
                     }
                     const check = await User.create(user);
                     if (check) {
                         return cd(null, user);
+
                     }
                 }
             } catch(err){
