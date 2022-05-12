@@ -1,6 +1,6 @@
 const { application } = require('express');
 const { use } = require('passport');
-const { User, Writing, sequelize } = require('../../database/models');
+const { User, Writing, sequelize, Oauth } = require('../../database/models');
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -8,7 +8,6 @@ const bcrypt = require('bcrypt');
 const { identifier } = require('@babel/types');
 const e = require('connect-flash');
 const credential = require('../../database/config/google.json').web;
-
 
 
 module.exports = function(app) {
@@ -91,21 +90,39 @@ module.exports = function(app) {
                 const already_user = await User.findAll({
                     where : {identifier : profile.id}
                 });
-                if(already_user.length !== 0){
+                if(already_user.length !== 0){ // user already exist
+                    var value = {
+                        access_token: accessToken
+                    };
+                    var condition = {
+                        where: {
+                            google_user_id: already_user[0].id
+                        }
+                    };
+                    const google_user_update = await Oauth.update(value, condition);
+                    if (google_user_update)
                     return cd(null, already_user[0]);
                 }
                 else{
                     const user = await {
-                        user_id: 'google',
-                        password: accessToken,
                         identifier: profile.id,
                         nickname: profile.displayName,
+                        provider: 'google',
                     }
-                    const check = await User.create(user);
-                    if (check) {
-                        return cd(null, user);
-
+                    const check_user = await User.create(user);
+                    if (check_user){
+                        console.log('check_user: ', check_user);
+                        const oauth = await {
+                            google_user_id: check_user.dataValues.id,
+                            refresh_token: refreshToken,
+                            access_token: accessToken,
+                        }
+                        const check_oauth = await Oauth.create(oauth)
+                        if (check_oauth) {
+                            return cd(null, user);
+                        }
                     }
+                    
                 }
             } catch(err){
                 console.log(err);

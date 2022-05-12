@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
             type: Sequelize.STRING(500),
             allowNull: true
         },
+        access_token: {
+            type: Sequelize.STRING(500),
+            allowNull: true
+        },
     }, {
         charset: "utf8", 
         collate: "utf8_general_ci", 
