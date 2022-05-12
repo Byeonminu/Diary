@@ -16,7 +16,7 @@ db.Sequelize = Sequelize;
 
 const User = require('./User')(sequelize, Sequelize);
 const Writing = require('./Writing')(sequelize, Sequelize);
-
+const Oauth = require('./Oauth')(sequelize, Sequelize);
 
 
 User.hasMany(Writing, {
@@ -30,10 +30,22 @@ Writing.belongsTo(User, {
   foreignKey: 'user_identifier',
   targetKey: 'identifier'
 });
+User.hasMany(Oauth, {
+  foreignKey: 'google_user_id',
+  sourceKey: 'id',
+  allowNull: false,
+  constraints: true,
+  onDelete: 'cascade',
+});
+Oauth.belongsTo(User,{
+  foreignKey: 'google_user_id',
+  targetKey: 'id'
+});
+
 
 db.User = User;
 db.Writing = Writing;
-
+db.Oauth = Oauth;
 
 module.exports = db;
 

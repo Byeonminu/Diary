@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         user_id: {
             type: Sequelize.STRING(100),
-            allowNull : false
+            allowNull : true
         },
         password: {
             type: Sequelize.STRING(100),
-            allowNull: false
+            allowNull: true
         },
         identifier: {
             type: Sequelize.STRING(500),
@@ -23,12 +23,16 @@ module.exports = (sequelize, DataTypes) => {
         },
         nickname: {
             type: Sequelize.STRING(20),
-            allowNull: false
+            allowNull: true
         },
         when_created:{
             type: 'TIMESTAMP',
             allowNull: true,
-        }
+        },
+        provider: {
+            type: Sequelize.STRING(20),
+            allowNull: true
+        },
     }, {
         charset: "utf8", 
         collate: "utf8_general_ci", 
