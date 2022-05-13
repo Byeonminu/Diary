@@ -18,8 +18,8 @@ This is my first personal project. It is a project that has experienced the actu
 ## Development
 * * *
 ### __1. Project Features__
- - Authentication: 회원가입시 아이디 중복 및 비밀번호 유효성 검사, 로그인 시 아이디 비밀번호 유효성 검사, 비밀번호 변경, 구글 OAuth 2.0
-- Diary: CRUD   
+ - Authentication: 회원가입시 아이디 중복 및 비밀번호 유효성 검사, 로그인 시 아이디 비밀번호 유효성 검사, 비밀번호 변경, 구글 OAuth 2.0, 
+- Diary: CRUD, 구글 캘린더 event 가져오기
 <br/>
 
 ### __2. Tech stack__
@@ -56,8 +56,13 @@ This is my first personal project. It is a project that has experienced the actu
 
 <br/>
 
+- ### oauth - Table that stores google oauth user information
+    <img src="./database/config/img/oauth.png" width= 500>
+
+<br/>
+
 ### __4. Database Design__
-### I did my best to make "Restful API".
+### I did my best to make 'Restful' API.
 <img src="./database/config/img/api.png" width= 600>
 
 <br/>
