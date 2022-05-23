@@ -13,8 +13,8 @@
     <a href = "/writings/new-writings" style= "float:right" >새 글쓰기</a>
     <div class = "forspace"style="float:right" > ||</div>
     <a href="/writings/calendar" style="float:right">구글 캘린더</a>
-    <div class="list">
-    <ol>
+    <div class="list_page">
+    <ol >
     <% for(var i =0; i < lists.length; i++) { %>
     <% var user="/writings/" +lists[i].user_identifier + "/" + lists[i].doc_identifier; %>
  
@@ -25,19 +25,17 @@
     <%= " - " + lists[i].when_written.toLocaleString() %>
     </li>
     </p>
-    <!-- <br>
-    <li><%= "내용:" + lists[i].description %></li>
-    <br>
-    <li><%= "when_written: " + lists[i].when_written %></li>
-    <br>
-    <li><%= "last_updated: " + lists[i].last_updated %></li> -->
     <hr/>
    
 <% } %>
 </ol>
 </div>
-    
+<div style="float: right">
+<% for(var i=0; i < calendar_events.length; i++) { %>
+<%= calendar_events[i] %><br/>
 
+<% } %>
+</div>
 
 
 

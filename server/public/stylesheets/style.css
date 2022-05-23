@@ -3,6 +3,11 @@
   font-size: 20px;
 }
 
+.list_page{
+  display: block;
+  font-size: 20px;
+  width: 500px;
+}
 .title{
   font-size: 30px;
   text-align: center;
