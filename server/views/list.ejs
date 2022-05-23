@@ -30,12 +30,14 @@
 <% } %>
 </ol>
 </div>
+<% if(calendar_events != undefined) { %>
 <div style="float: right">
 <% for(var i=0; i < calendar_events.length; i++) { %>
 <%= calendar_events[i] %><br/>
 
 <% } %>
 </div>
+<% } %>
 
 
 
