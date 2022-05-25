@@ -4,8 +4,6 @@ const Controller = require('../controllers/controller');
 
 
 
-router.get('/calendar',Controller.Calendar_page);
-
 router.get('/new-writings', Controller.Createpage);
 
 router.post('/new-writings', Controller.Create_process);

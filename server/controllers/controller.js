@@ -191,64 +191,7 @@ const credential = require('../../database/config/google.json').web;
             }
         }
     }
-    exports.Calendar_page = async (request, response, next) => {
-        
-        const { client_secret, client_id, redirect_uris } = credential;
-        const oAuth2Client = new google.auth.OAuth2(
-            client_id, client_secret, redirect_uris[0]);
-
-        try {
-            const access_token = await User.findAll({
-                where: {
-                    identifier: request.user[0].identifier
-                }
-            })
-            if (access_token.length != 0) {
-                const google_user = await Oauth.findAll({
-                    where: {
-                        google_user_id: access_token[0].id
-                    }
-                })
-                if (google_user.length != 0) {
-                    oAuth2Client.setCredentials({ access_token: google_user[0].access_token });
-                    // console.log("oAuth2Client : ", oAuth2Client);
-                    const calendar = google.calendar({ version: "v3", auth: oAuth2Client });
-                    calendar.events.list({
-                        calendarId: 'primary',
-                        timeMin: (new Date()).toISOString(),
-                        maxResults: 10,
-                        singleEvents: true,
-                        orderBy: 'startTime',
-                    }, (err, res) => {
-                if (err) return console.log('The API returned an error: ' + err);
-                const events = res.data.items;
-                if (events.length) {
-                    console.log('Upcoming 10 events:');
-                    let k = events.length;
-                    let event_collection = [];
-                    while(k > 0){ 
-                        events.map((event, i) => {
-                            const start = event.start.dateTime || event.start.date;
-                            console.log(`${start} - ${event.summary}`);
-                            k -= 1;
-                            event_collection += [`{${start} - ${event.summary} <br/>`];
-                        });
-                    }
-                    console.log("내부 event_collection: ", event_collection);
-                    return response.send(event_collection);
-                } else {
-                    console.log('No upcoming events found.');
-                }
-            });
-        }
-    }
-    } catch(err){
-        console.log(err);
-        next(err);
-    }
-        
-}
-    
+  
 const Calendar_event_list = async(request, response, next) =>{
   
     const { client_secret, client_id, redirect_uris } = credential;
@@ -290,17 +233,18 @@ const Calendar_event_list = async(request, response, next) =>{
                         while (k > 0) {
                             events.map((event, i) => {
                                 const start = event.start.dateTime || event.start.date;
-                                console.log(`${start} - ${event.summary}`);
+                                // console.log(`${start} - ${event.summary}`);
                                 k -= 1;
                                 event_collection.push(`{${start} - ${event.summary}`);
                             });
                         }
 
-                        console.log("내부 event_collection: ", event_collection);
+
                         return event_collection;
                         
                     } else {
                         console.log('No upcoming events found.');
+                        return ;
                     }
 
 
