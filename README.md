@@ -62,7 +62,7 @@ This is my first personal project. It is a project that has experienced the actu
 <br/>
 
 ### __4. API / Routing__
-### I did my best to make 'Restful' API.
+### I did my best to make 'RESTful' API.
 <img src="./database/config/img/api.png" width= 600>
 
 <br/>
